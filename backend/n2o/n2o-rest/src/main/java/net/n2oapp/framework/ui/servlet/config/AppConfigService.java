@@ -1,4 +1,4 @@
-package net.n2oapp.framework.ui.servlet;
+package net.n2oapp.framework.ui.servlet.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.ui.servlet.ExposedResourceBundleMessageSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;

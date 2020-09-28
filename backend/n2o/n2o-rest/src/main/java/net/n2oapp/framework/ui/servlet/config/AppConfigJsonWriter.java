@@ -1,4 +1,4 @@
-package net.n2oapp.framework.ui.servlet;
+package net.n2oapp.framework.ui.servlet.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.config.AppConfig;

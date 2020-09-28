@@ -1,4 +1,4 @@
-package net.n2oapp.framework.ui.servlet;
+package net.n2oapp.framework.ui.servlet.config;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
