@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
-import net.n2oapp.framework.mvc.n2o.N2oServlet;
+import net.n2oapp.framework.mvc.n2o.AbstractService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Сервлет возвращающий страницу по запросу /n2o/page/*
  */
-public class PageService extends N2oServlet {
+public class PageService extends AbstractService {
     private MetadataRouter router;
     private ReadCompileBindTerminalPipeline pipeline;
     private SubModelsProcessor subModelsProcessor;

@@ -25,7 +25,7 @@ import net.n2oapp.framework.config.register.route.N2oRouter;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
+import static net.n2oapp.framework.mvc.n2o.AbstractService.USER;
 
 public abstract class AbstractController {
     private MetadataRouter router;

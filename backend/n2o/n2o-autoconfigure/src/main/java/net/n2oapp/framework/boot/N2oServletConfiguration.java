@@ -14,11 +14,10 @@ import net.n2oapp.framework.ui.servlet.ExposedResourceBundleMessageSource;
 import net.n2oapp.framework.ui.servlet.ModifiedClientCacheTemplate;
 import net.n2oapp.framework.ui.servlet.config.AppConfigJsonWriter;
 import net.n2oapp.framework.ui.servlet.config.AppConfigService;
-import net.n2oapp.framework.ui.servlet.data.DataServlet;
+import net.n2oapp.framework.ui.servlet.data.DataService;
 import net.n2oapp.framework.ui.servlet.page.PageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -73,12 +72,12 @@ public class N2oServletConfiguration {
     }
 
     @Bean
-    public ServletRegistrationBean dataServlet(DataController controller,
-                                               ErrorMessageBuilder errorMessageBuilder) {
-        DataServlet dataServlet = new DataServlet(controller);
-        dataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
-        dataServlet.setErrorMessageBuilder(errorMessageBuilder);
-        return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/data/*");
+    public DataService dataServlet(DataController controller,
+                                   ErrorMessageBuilder errorMessageBuilder) {
+        DataService dataService = new DataService(controller);
+        dataService.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
+        dataService.setErrorMessageBuilder(errorMessageBuilder);
+        return dataService;
     }
 
     @Bean

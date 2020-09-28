@@ -25,17 +25,14 @@ import java.util.Collections;
  * Абстракция для сервлетов N2O.
  * Обеспечивает обработку ошибок и получение контекста пользователя.
  */
-public abstract class N2oServlet extends HttpServlet {
-    protected static final Log logger = LogFactory.getLog(N2oServlet.class);
+public abstract class AbstractService {
+    protected static final Log logger = LogFactory.getLog(AbstractService.class);
     public static final String USER = "user";
     protected ObjectMapper objectMapper = new ObjectMapper();
     private ErrorMessageBuilder errorMessageBuilder;
     private ClientCacheTemplate clientCacheTemplate;
 
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
+    public AbstractService() {
         if (errorMessageBuilder == null)
             errorMessageBuilder = new ErrorMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource()));
     }
@@ -53,8 +50,7 @@ public abstract class N2oServlet extends HttpServlet {
             req.setAttribute(USER, StaticUserContext.getUserContext());
     }
 
-    @Override
-    protected final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             setUser(req);
             if (clientCacheTemplate != null)
@@ -70,8 +66,7 @@ public abstract class N2oServlet extends HttpServlet {
 
     }
 
-    @Override
-    protected final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setUser(req);
         try {
             safeDoPost(req, resp);
@@ -84,8 +79,7 @@ public abstract class N2oServlet extends HttpServlet {
 
     }
 
-    @Override
-    protected final void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public final void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setUser(req);
         try {
             safeDoPut(req, resp);
@@ -98,8 +92,7 @@ public abstract class N2oServlet extends HttpServlet {
 
     }
 
-    @Override
-    protected final void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public final void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         setUser(req);
         try {
             safeDoDelete(req, resp);

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.export;
 
-import net.n2oapp.framework.mvc.n2o.N2oServlet;
+import net.n2oapp.framework.mvc.n2o.AbstractService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Сервлет экспорта данных таблицы
  */
-public class ExportDataServlet extends N2oServlet {
+public class ExportDataServlet extends AbstractService {
 
     private ExportController controller;
 
