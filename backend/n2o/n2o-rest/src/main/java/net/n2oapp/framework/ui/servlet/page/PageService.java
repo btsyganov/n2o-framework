@@ -14,14 +14,16 @@ import java.io.IOException;
 /**
  * Сервлет возвращающий страницу по запросу /n2o/page/*
  */
-public class PageServlet extends N2oServlet {
+public class PageService extends N2oServlet {
     private MetadataRouter router;
     private ReadCompileBindTerminalPipeline pipeline;
     private SubModelsProcessor subModelsProcessor;
 
     @Override
     public void safeDoGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String path = req.getPathInfo();
+        if (!req.getServletPath().startsWith("/n2o/page"))
+            throw new IllegalStateException("Request should start with /n2o/page");
+        String path = req.getServletPath().substring(9);
         CompileContext<Page, ?> context = router.get(path, Page.class, req.getParameterMap());
         Page page = pipeline.get(context, context.getParams(path, req.getParameterMap()), subModelsProcessor);
         resp.setContentType("application/json");

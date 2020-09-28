@@ -10,12 +10,12 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
 import net.n2oapp.framework.mvc.cache.LifetimeClientCacheTemplate;
 import net.n2oapp.framework.ui.controller.DataController;
-import net.n2oapp.framework.ui.servlet.config.AppConfigJsonWriter;
-import net.n2oapp.framework.ui.servlet.config.AppConfigService;
 import net.n2oapp.framework.ui.servlet.ExposedResourceBundleMessageSource;
 import net.n2oapp.framework.ui.servlet.ModifiedClientCacheTemplate;
+import net.n2oapp.framework.ui.servlet.config.AppConfigJsonWriter;
+import net.n2oapp.framework.ui.servlet.config.AppConfigService;
 import net.n2oapp.framework.ui.servlet.data.DataServlet;
-import net.n2oapp.framework.ui.servlet.page.PageServlet;
+import net.n2oapp.framework.ui.servlet.page.PageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -54,22 +54,22 @@ public class N2oServletConfiguration {
     }
 
     @Bean
-    public ServletRegistrationBean pageServlet(MetadataEnvironment env, MetadataRouter router,
-                                               ErrorMessageBuilder errorMessageBuilder,
-                                               SubModelsProcessor subModelsProcessor,
-                                               Optional<ClientCacheTemplate> pageClientCacheTemplate) {
-        PageServlet pageServlet = new PageServlet();
+    public PageService pageServlet(MetadataEnvironment env, MetadataRouter router,
+                                   ErrorMessageBuilder errorMessageBuilder,
+                                   SubModelsProcessor subModelsProcessor,
+                                   Optional<ClientCacheTemplate> pageClientCacheTemplate) {
+        PageService pageService = new PageService();
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy()
                 .compile().transform().cache().copy()
                 .bind();
-        pageServlet.setPipeline(pipeline);
-        pageServlet.setRouter(router);
-        pageServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
-        pageServlet.setErrorMessageBuilder(errorMessageBuilder);
-        pageServlet.setSubModelsProcessor(subModelsProcessor);
-        pageClientCacheTemplate.ifPresent(pageServlet::setClientCacheTemplate);
-        return new ServletRegistrationBean(pageServlet, n2oApiUrl + "/page/*");
+        pageService.setPipeline(pipeline);
+        pageService.setRouter(router);
+        pageService.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
+        pageService.setErrorMessageBuilder(errorMessageBuilder);
+        pageService.setSubModelsProcessor(subModelsProcessor);
+        pageClientCacheTemplate.ifPresent(pageService::setClientCacheTemplate);
+        return pageService;
     }
 
     @Bean
