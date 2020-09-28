@@ -12,29 +12,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.MessageSourceAccessor;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class AppConfigServlet extends HttpServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(AppConfigServlet.class);
+public class AppConfigService {
+
+    private static final Logger log = LoggerFactory.getLogger(AppConfigService.class);
     private AppConfigJsonWriter appConfigJsonWriter;
     private ExposedResourceBundleMessageSource messageSource;
     private ReadCompileBindTerminalPipeline pipeline;
     private MetadataEnvironment environment;
     private String headerSourceId;
 
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse res) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse res) throws IOException {
         Map<String, Object> addedValues = new HashMap<>();
         addedValues.put("menu", getMenu());
         addedValues.put("messages", getMessages());

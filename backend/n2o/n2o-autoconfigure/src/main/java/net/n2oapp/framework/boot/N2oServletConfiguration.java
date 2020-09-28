@@ -11,7 +11,7 @@ import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
 import net.n2oapp.framework.mvc.cache.LifetimeClientCacheTemplate;
 import net.n2oapp.framework.ui.controller.DataController;
 import net.n2oapp.framework.ui.servlet.AppConfigJsonWriter;
-import net.n2oapp.framework.ui.servlet.AppConfigServlet;
+import net.n2oapp.framework.ui.servlet.AppConfigService;
 import net.n2oapp.framework.ui.servlet.ExposedResourceBundleMessageSource;
 import net.n2oapp.framework.ui.servlet.ModifiedClientCacheTemplate;
 import net.n2oapp.framework.ui.servlet.data.DataServlet;
@@ -82,10 +82,10 @@ public class N2oServletConfiguration {
     }
 
     @Bean
-    public ServletRegistrationBean appConfigServlet(ConfigurableEnvironment configurableEnvironment,
-                                                    ContextProcessor contextProcessor,
-                                                    ExposedResourceBundleMessageSource clientMessageSource,
-                                                    MetadataEnvironment env) {
+    public AppConfigService appConfigService(ConfigurableEnvironment configurableEnvironment,
+                                             ContextProcessor contextProcessor,
+                                             ExposedResourceBundleMessageSource clientMessageSource,
+                                             MetadataEnvironment env) {
         AppConfigJsonWriter writer = new AppConfigJsonWriter();
         writer.setContextProcessor(contextProcessor);
         writer.setPropertyResolver(configurableEnvironment);
@@ -93,16 +93,16 @@ public class N2oServletConfiguration {
         writer.setPath("classpath*:META-INF/config.json");
         writer.setOverridePath("classpath*:META-INF/config-build.json");
 
-        AppConfigServlet appConfigServlet = new AppConfigServlet();
-        appConfigServlet.setAppConfigJsonWriter(writer);
-        appConfigServlet.setMessageSource(clientMessageSource);
-        appConfigServlet.setEnvironment(env);
+        AppConfigService appConfigService = new AppConfigService();
+        appConfigService.setAppConfigJsonWriter(writer);
+        appConfigService.setMessageSource(clientMessageSource);
+        appConfigService.setEnvironment(env);
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy()
                 .compile().transform().cache().copy()
                 .bind();
-        appConfigServlet.setPipeline(pipeline);
-        appConfigServlet.setHeaderSourceId(headerId);
-        return new ServletRegistrationBean(appConfigServlet, n2oApiUrl + "/config", "/n2o/config.json");
+        appConfigService.setPipeline(pipeline);
+        appConfigService.setHeaderSourceId(headerId);
+        return appConfigService;
     }
 }
