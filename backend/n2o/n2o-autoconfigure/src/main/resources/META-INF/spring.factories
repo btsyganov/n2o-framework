@@ -8,5 +8,4 @@ net.n2oapp.framework.boot.N2oFrameworkAutoConfiguration,\
 net.n2oapp.framework.boot.N2oEjbAutoConfiguration,\
 net.n2oapp.framework.boot.N2oSqlAutoConfiguration,\
 net.n2oapp.framework.boot.N2oMongoAutoConfiguration,\
-net.n2oapp.framework.boot.N2oAccessAutoConfiguration,\
-net.n2oapp.framework.boot.N2oExportAutoConfiguration
+net.n2oapp.framework.boot.N2oAccessAutoConfiguration
