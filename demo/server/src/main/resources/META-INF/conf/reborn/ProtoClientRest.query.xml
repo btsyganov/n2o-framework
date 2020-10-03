@@ -4,6 +4,10 @@
         <rest>http://localhost:8081/api/clients?{filters}&amp;page={page}&amp;size={limit}&amp;{sorting}</rest>
     </list>
 
+    <unique result-mapping="#this">
+        <rest>http://localhost:8081/api/clients/{id}</rest>
+    </unique>
+
     <fields>
         <field id="id">
             <select/>
