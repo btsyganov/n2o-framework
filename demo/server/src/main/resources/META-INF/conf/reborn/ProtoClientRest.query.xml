@@ -1,12 +1,16 @@
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="ProtoClient">
 
-    <list result-mapping="['content']" count-mapping="['totalElements']">
+    <list result-mapping="#this">
         <rest>http://localhost:8081/api/clients?{filters}&amp;page={page}&amp;size={limit}&amp;{sorting}</rest>
     </list>
 
     <unique result-mapping="#this">
         <rest>http://localhost:8081/api/clients/{id}</rest>
     </unique>
+
+    <count>
+        <rest>http://localhost:8081/api/clients/count</rest>
+    </count>
 
     <fields>
         <field id="id">
@@ -30,7 +34,7 @@
 
         <field id="birthday" name="Дата рождения">
             <select mapping="['birthDate']"/>
-            <sorting mapping="['birthdayDirection']">sort=birthDate,{birthdayDirection}</sorting>
+            <sorting mapping="['birthdayDirection']">sort=birth_dt,{birthdayDirection}</sorting>
         </field>
 
         <field id="vip" name="VIP">
