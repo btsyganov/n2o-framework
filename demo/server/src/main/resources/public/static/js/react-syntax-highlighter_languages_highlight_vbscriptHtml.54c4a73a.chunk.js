@@ -1,0 +1,2 @@
+(this["webpackJsonpn2o-demo-client"]=this["webpackJsonpn2o-demo-client"]||[]).push([[170],{3069:function(n,e){n.exports=function(n){return{subLanguage:"xml",contains:[{begin:"<%",end:"%>",subLanguage:"vbscript"}]}}}}]);
+//# sourceMappingURL=react-syntax-highlighter_languages_highlight_vbscriptHtml.54c4a73a.chunk.js.map

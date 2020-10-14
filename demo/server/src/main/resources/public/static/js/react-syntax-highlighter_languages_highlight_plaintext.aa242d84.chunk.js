@@ -1,0 +1,2 @@
+(this["webpackJsonpn2o-demo-client"]=this["webpackJsonpn2o-demo-client"]||[]).push([[121],{3020:function(e,n){e.exports=function(e){return{disableAutodetect:!0}}}}]);
+//# sourceMappingURL=react-syntax-highlighter_languages_highlight_plaintext.aa242d84.chunk.js.map

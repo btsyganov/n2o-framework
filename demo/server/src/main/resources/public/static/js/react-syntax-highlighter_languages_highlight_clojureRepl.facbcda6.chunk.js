@@ -1,0 +1,2 @@
+(this["webpackJsonpn2o-demo-client"]=this["webpackJsonpn2o-demo-client"]||[]).push([[27],{2921:function(n,e){n.exports=function(n){return{contains:[{className:"meta",begin:/^([\w.-]+|\s*#_)=>/,starts:{end:/$/,subLanguage:"clojure"}}]}}}}]);
+//# sourceMappingURL=react-syntax-highlighter_languages_highlight_clojureRepl.facbcda6.chunk.js.map

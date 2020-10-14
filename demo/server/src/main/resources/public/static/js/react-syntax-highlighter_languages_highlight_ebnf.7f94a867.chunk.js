@@ -1,0 +1,2 @@
+(this["webpackJsonpn2o-demo-client"]=this["webpackJsonpn2o-demo-client"]||[]).push([[49],{2944:function(n,e){n.exports=function(n){var e=n.COMMENT(/\(\*/,/\*\)/);return{illegal:/\S/,contains:[e,{className:"attribute",begin:/^[ ]*[a-zA-Z][a-zA-Z-]*([\s-]+[a-zA-Z][a-zA-Z]*)*/},{begin:/=/,end:/;/,contains:[e,{className:"meta",begin:/\?.*\?/},n.APOS_STRING_MODE,n.QUOTE_STRING_MODE]}]}}}}]);
+//# sourceMappingURL=react-syntax-highlighter_languages_highlight_ebnf.7f94a867.chunk.js.map
