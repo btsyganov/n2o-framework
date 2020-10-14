@@ -12,11 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import reactor.core.publisher.Mono;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 
 
@@ -29,22 +28,12 @@ public class AppConfigService {
     private MetadataEnvironment environment;
     private String headerSourceId;
 
-    public void doGet(HttpServletRequest request, HttpServletResponse res) throws IOException {
+    public Mono<Map<String, Object>> doGet(ServerHttpResponse res) {
         Map<String, Object> addedValues = new HashMap<>();
         addedValues.put("menu", getMenu());
         addedValues.put("messages", getMessages());
 
-        res.setContentType("application/json");
-        PrintWriter out = res.getWriter();
-        try {
-            appConfigJsonWriter.writeValues(out, addedValues);
-        } catch (Exception e) {
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            e.printStackTrace(out);
-            log.error(e.getMessage(), e);
-        } finally {
-            out.close();
-        }
+        return Mono.just(addedValues);
     }
 
     private Map<String, Object> getMenu() {

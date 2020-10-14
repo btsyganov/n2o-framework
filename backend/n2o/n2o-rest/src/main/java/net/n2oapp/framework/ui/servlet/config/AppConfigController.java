@@ -1,13 +1,13 @@
 package net.n2oapp.framework.ui.servlet.config;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.Map;
 
-@Controller
+@RestController
 public class AppConfigController {
 
     private final AppConfigService service;
@@ -17,7 +17,7 @@ public class AppConfigController {
     }
 
     @GetMapping(path = {"/n2o/config"})
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        service.doGet(request, response);
+    public Mono<Map<String, Object>> doGet(ServerHttpResponse response) {
+        return service.doGet(response);
     }
 }

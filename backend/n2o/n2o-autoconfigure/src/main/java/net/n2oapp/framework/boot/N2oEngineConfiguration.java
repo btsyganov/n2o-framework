@@ -20,7 +20,6 @@ import net.n2oapp.framework.engine.validation.N2oValidationModule;
 import net.n2oapp.framework.engine.validation.engine.ValidationProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -147,10 +146,12 @@ public class N2oEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "restDataProviderEngine")
-    public SpringRestDataProviderEngine restDataProviderEngine(RestTemplateBuilder builder) {
+    public SpringRestDataProviderEngine restDataProviderEngine() {
         ObjectMapper restObjectMapper = restObjectMapper();
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(httpMessageConverter(restObjectMapper));
         SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(
-                restTemplate(builder, httpMessageConverter(restObjectMapper)),
+                restTemplate,
                 restObjectMapper);
         springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
         return springRestDataProviderEngine;
@@ -178,9 +179,4 @@ public class N2oEngineConfiguration {
         converter.setObjectMapper(restObjectMapper);
         return converter;
     }
-
-    private RestTemplate restTemplate(RestTemplateBuilder builder, MappingJackson2HttpMessageConverter converter) {
-        return builder.messageConverters(converter).build();
-    }
-
 }

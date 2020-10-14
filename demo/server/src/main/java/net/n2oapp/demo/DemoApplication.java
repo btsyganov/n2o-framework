@@ -11,14 +11,21 @@ import org.springframework.boot.autoconfigure.jdbc.EmbeddedDataSourceConfigurati
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
 
+@EnableWebFlux
 @SpringBootApplication
 //@EnableRoutingDataSource
 @Configuration
@@ -41,40 +48,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         RoutingDataSourceAutoConfiguration.class,
         N2oFrameworkAutoConfiguration.class
 })
-public class DemoApplication extends SpringBootServletInitializer {
+public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(DemoApplication.class);
+    @Component
+    public class CustomWebFilter implements WebFilter {
+        @Override
+        public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+            if (exchange.getRequest().getURI().getPath().equals("/")) {
+                return chain.filter(exchange.mutate().request(exchange.getRequest().mutate().path("/index.html").build()).build());
+            }
+
+            return chain.filter(exchange);
+        }
     }
 
     @Bean
-    public WebMvcConfigurer forwardToIndex() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addViewControllers(ViewControllerRegistry registry) {
-                // forward requests to /admin and /user to their index.html
-                registry.addViewController("/docs/manual/").setViewName(
-                        "forward:/docs/manual/index.html");
-                registry.addViewController("/docs/xml/").setViewName(
-                        "forward:/docs/xml/index.html");
-                registry.addViewController("/docs/storybook/").setViewName(
-                        "forward:/docs/storybook/index.html");
-                registry.addViewController("/docs/esdoc/").setViewName(
-                        "forward:/docs/esdoc/index.html");
-
-            }
-
-//            @Override
-//            public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//                registry.addResourceHandler("/{x:^(?!docs$).*$}/**")
-//                        .addResourceLocations("classpath:/META-INF/resources/")
-//                        .resourceChain(true)
-//                        .addResolver(new SPAResolver());
-//            }
-        };
+    public RouterFunction<ServerResponse> imgRouter() {
+        return RouterFunctions.resources("/**", new ClassPathResource("public/"));
     }
+
 }
