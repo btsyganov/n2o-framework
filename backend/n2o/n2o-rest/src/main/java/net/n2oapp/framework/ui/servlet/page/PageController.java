@@ -1,13 +1,12 @@
 package net.n2oapp.framework.ui.servlet.page;
 
-import org.springframework.stereotype.Controller;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-@Controller
+@RestController
 public class PageController {
     private final PageService pageService;
 
@@ -16,7 +15,7 @@ public class PageController {
     }
 
     @GetMapping(path = {"/n2o/page**", "/n2o/page/**"})
-    public void getPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        pageService.safeDoGet(request, response);
+    public Mono<Page> getPage(ServerHttpRequest request) {
+        return pageService.safeDoGet0(request);
     }
 }
