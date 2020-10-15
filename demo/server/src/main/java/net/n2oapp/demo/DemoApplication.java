@@ -3,6 +3,7 @@ package net.n2oapp.demo;
 import net.n2oapp.framework.boot.N2oFrameworkAutoConfiguration;
 import net.n2oapp.framework.boot.sql.jdbc.RoutingDataSourceAutoConfiguration;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
@@ -26,7 +27,7 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 @EnableWebFlux
-@SpringBootApplication
+@SpringBootApplication(exclude = {WebMvcAutoConfiguration.class })
 //@EnableRoutingDataSource
 @Configuration
 @Import({
@@ -43,14 +44,15 @@ import reactor.core.publisher.Mono;
 //        JacksonAutoConfiguration.class,
 //        PropertyPlaceholderAutoConfiguration.class,
 //        ThymeleafAutoConfiguration.class,
-        WebMvcAutoConfiguration.class,
 //        WebSocketAutoConfiguration.class,
         RoutingDataSourceAutoConfiguration.class,
         N2oFrameworkAutoConfiguration.class
 })
 public class DemoApplication {
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication app = new SpringApplication(DemoApplication.class);
+        app.setWebApplicationType(WebApplicationType.REACTIVE);
+        app.run(args);
     }
 
     @Component

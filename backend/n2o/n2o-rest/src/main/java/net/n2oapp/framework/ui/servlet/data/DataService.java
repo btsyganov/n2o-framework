@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.mvc.n2o.AbstractService;
 import net.n2oapp.framework.ui.controller.DataController;
 import org.apache.commons.io.IOUtils;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,20 @@ public class DataService extends AbstractService {
     public DataService(DataController controller) {
         super();
         this.controller = controller;
+    }
+
+    public Mono<GetDataResponse> getData(ServerHttpRequest request) {
+        Map<String, String[]> queryParams = new HashMap<>();
+        for (Map.Entry<String, List<String>> kv : request.getQueryParams().entrySet()) {
+            queryParams.put(kv.getKey(), kv.getValue().toArray(new String[0]));
+        }
+
+        if (!request.getPath().value().startsWith("/n2o/data"))
+            throw new IllegalStateException("Request should starts with /n2o/data");
+        String path = request.getPath().value().substring(9);
+
+        GetDataResponse result = controller.getData(path, queryParams, null);
+        return Mono.just(result);
     }
 
     @Override

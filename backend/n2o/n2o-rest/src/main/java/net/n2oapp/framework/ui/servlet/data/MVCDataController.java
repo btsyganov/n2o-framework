@@ -1,14 +1,18 @@
 package net.n2oapp.framework.ui.servlet.data;
 
+import net.n2oapp.framework.api.rest.GetDataResponse;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Controller
+@RestController
 public class MVCDataController {
 
     private final DataService dataService;
@@ -18,8 +22,8 @@ public class MVCDataController {
     }
 
     @GetMapping(path = {"/n2o/data**", "/n2o/data/**"})
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        dataService.doGet(request, response);
+    public Mono<GetDataResponse> doGet(ServerHttpRequest request) {
+        return dataService.getData(request);
     }
 
     @PostMapping(path = {"/n2o/data**", "/n2o/data/**"})
